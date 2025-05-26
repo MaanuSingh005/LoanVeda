@@ -1,4 +1,6 @@
 import { users, loanQueries, type User, type InsertUser, type LoanQuery, type InsertLoanQuery, type UpdateLoanQuery } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -13,79 +15,77 @@ export interface IStorage {
   deleteLoanQuery(id: number): Promise<boolean>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private loanQueries: Map<number, LoanQuery>;
-  private currentUserId: number;
-  private currentQueryId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.loanQueries = new Map();
-    this.currentUserId = 1;
-    this.currentQueryId = 1;
-
-    // Create default admin user
-    this.createUser({ username: "admin", password: "admin123" });
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
     return user;
   }
 
   async createLoanQuery(insertQuery: InsertLoanQuery): Promise<LoanQuery> {
-    const id = this.currentQueryId++;
-    const query: LoanQuery = {
-      id,
-      name: insertQuery.name,
-      email: insertQuery.email,
-      mobile: insertQuery.mobile,
-      loanType: insertQuery.loanType,
-      amount: insertQuery.amount,
-      city: insertQuery.city,
-      comments: insertQuery.comments || null,
-      status: insertQuery.status,
-      createdAt: new Date(),
-    };
-    this.loanQueries.set(id, query);
+    const [query] = await db
+      .insert(loanQueries)
+      .values({
+        ...insertQuery,
+        comments: insertQuery.comments || null,
+      })
+      .returning();
     return query;
   }
 
   async getLoanQueries(): Promise<LoanQuery[]> {
-    return Array.from(this.loanQueries.values()).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    const queries = await db
+      .select()
+      .from(loanQueries)
+      .orderBy(loanQueries.createdAt);
+    return queries.reverse(); // Most recent first
   }
 
   async getLoanQuery(id: number): Promise<LoanQuery | undefined> {
-    return this.loanQueries.get(id);
+    const [query] = await db.select().from(loanQueries).where(eq(loanQueries.id, id));
+    return query || undefined;
   }
 
   async updateLoanQuery(id: number, update: UpdateLoanQuery): Promise<LoanQuery | undefined> {
-    const query = this.loanQueries.get(id);
-    if (!query) return undefined;
-
-    const updatedQuery: LoanQuery = { ...query, ...update };
-    this.loanQueries.set(id, updatedQuery);
-    return updatedQuery;
+    const [query] = await db
+      .update(loanQueries)
+      .set(update)
+      .where(eq(loanQueries.id, id))
+      .returning();
+    return query || undefined;
   }
 
   async deleteLoanQuery(id: number): Promise<boolean> {
-    return this.loanQueries.delete(id);
+    const result = await db.delete(loanQueries).where(eq(loanQueries.id, id));
+    return result.rowCount > 0;
   }
 }
 
-export const storage = new MemStorage();
+// Initialize database with admin user
+async function initializeDatabase() {
+  try {
+    const existingAdmin = await db.select().from(users).where(eq(users.username, "admin"));
+    if (existingAdmin.length === 0) {
+      await db.insert(users).values({ username: "admin", password: "admin123" });
+    }
+  } catch (error) {
+    console.error("Error initializing database:", error);
+  }
+}
+
+export const storage = new DatabaseStorage();
+
+// Initialize database on startup
+initializeDatabase();
