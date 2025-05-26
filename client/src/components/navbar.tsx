@@ -32,13 +32,13 @@ export function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link key={item.name} href={item.href}>
-                <a
-                  className={`text-gray-700 dark:text-gray-300 hover:text-primary transition-colors font-medium ${
+                <span
+                  className={`text-gray-700 dark:text-gray-300 hover:text-primary transition-colors font-medium cursor-pointer ${
                     location === item.href ? "text-primary" : ""
                   }`}
                 >
                   {item.name}
-                </a>
+                </span>
               </Link>
             ))}
 
@@ -90,12 +90,12 @@ export function Navbar() {
             <div className="px-4 py-4 space-y-3">
               {navigation.map((item) => (
                 <Link key={item.name} href={item.href}>
-                  <a
-                    className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors font-medium"
+                  <span
+                    className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors font-medium cursor-pointer"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
-                  </a>
+                  </span>
                 </Link>
               ))}
               <div className="flex items-center justify-between pt-2">

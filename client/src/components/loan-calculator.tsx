@@ -14,11 +14,13 @@ import {
 export function LoanCalculator() {
   const [loanAmount, setLoanAmount] = useState([500000]);
   const [tenure, setTenure] = useState("3");
-  const [interestRate] = useState(12); // Fixed for calculation
+  const [interestRate, setInterestRate] = useState("12");
+  const [customRate, setCustomRate] = useState("");
 
   const calculateEMI = () => {
     const principal = loanAmount[0];
-    const rate = interestRate / 100 / 12;
+    const currentRate = interestRate === "custom" ? parseFloat(customRate) || 12 : parseFloat(interestRate);
+    const rate = currentRate / 100 / 12;
     const months = parseInt(tenure) * 12;
     
     const emi = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
@@ -46,7 +48,7 @@ export function LoanCalculator() {
               Quick Loan Calculator
             </h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Loan Amount
@@ -77,6 +79,8 @@ export function LoanCalculator() {
                     <SelectItem value="2">2 Years</SelectItem>
                     <SelectItem value="3">3 Years</SelectItem>
                     <SelectItem value="5">5 Years</SelectItem>
+                    <SelectItem value="7">7 Years</SelectItem>
+                    <SelectItem value="10">10 Years</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -85,10 +89,39 @@ export function LoanCalculator() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Interest Rate
                 </label>
-                <div className="p-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-center font-bold text-green-600 dark:text-green-400">
-                  10.5% - 18%
-                </div>
+                <Select value={interestRate} onValueChange={setInterestRate}>
+                  <SelectTrigger className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="10">10.0%</SelectItem>
+                    <SelectItem value="12">12.0%</SelectItem>
+                    <SelectItem value="14">14.0%</SelectItem>
+                    <SelectItem value="16">16.0%</SelectItem>
+                    <SelectItem value="18">18.0%</SelectItem>
+                    <SelectItem value="20">20.0%</SelectItem>
+                    <SelectItem value="custom">Custom Rate</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
+
+              {interestRate === "custom" && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Custom Rate (%)
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Enter rate"
+                    value={customRate}
+                    onChange={(e) => setCustomRate(e.target.value)}
+                    className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+                    min="1"
+                    max="50"
+                    step="0.1"
+                  />
+                </div>
+              )}
 
               <div className="flex items-end">
                 <Button className="w-full bg-gradient-to-r from-primary to-green-500 text-white p-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">

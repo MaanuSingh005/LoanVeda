@@ -1,0 +1,88 @@
+Project: LoanVeda – NBFC Web Portal (Built with React.js)
+Goal: Add missing features, fix UI issues, and integrate core financial ecosystem components to enhance the platform's usability, trust, and functionality.
+
+🛠️ 1. Bug Fix: Light Mode Toggle
+Issue: Light mode toggle (sun icon button) is not working properly.
+
+Task:
+
+Fix the theme toggle logic (light/dark mode) using a proper themeContext or useTheme hook.
+
+Ensure persistent theme preference using localStorage.
+
+Update icon to reflect current mode.
+
+📈 2. EMI Calculator Enhancements
+Add “Select Interest Rate” dropdown:
+
+Predefined options: 10%, 12%, 14%, 18%, etc.
+
+Option to enter custom interest rate.
+
+Dynamically update EMI results based on:
+
+Loan Amount
+
+Tenure (in months)
+
+Selected or custom interest rate
+
+📩 3. Inquiry Option
+Add “Raise a Loan Inquiry” section on the homepage and loan details page.
+
+Collect: Name, Mobile, Loan Type, Amount, Location, Comments
+
+Store inquiry in DB via backend API
+
+Show confirmation and send optional auto-reply email
+
+🏦 4. Lending Partners Section
+Create a carousel/grid listing 30+ lending partners, including:
+
+HDFC Bank
+
+Axis Bank
+
+ICICI, SBI, Bajaj Finserv, Kotak, IDFC First, Yes Bank, etc.
+
+Use logos with alt text for accessibility
+
+Add partner hover animation or modal with partner details
+
+💳 5. Supported Payment Systems
+Display supported payment systems prominently (for credibility):
+
+Logos: Visa, MasterCard, RuPay, UPI, NetBanking, AMEX
+
+Use icon set or SVGs with light animation
+
+Tooltip or modal for more details on supported payment gateways
+
+✅ 6. Certifications / Trust Indicators
+Add "Certified By" section in footer or hero section:
+
+Example Certifications:
+
+RBI Compliant NBFC
+
+ISO Certified
+
+Trusted Fintech 2025
+
+Verified by DigiLocker, CIBIL, UIDAI, etc.
+
+Add visual trust badges with animation (bounce/fade on scroll)
+
+Optional: Link to legal/compliance docs or partner certifications
+
+📌 Tech Notes
+Use framer-motion or AOS for animations.
+
+Use lucide-react, heroicons, or FontAwesome for icons.
+
+Ensure all new sections are responsive and a11y-compliant (accessible).
+
+Store inquiries in existing MongoDB or Firestore.
+
+Add filtering & export for new inquiries in admin dashboard.
+
