@@ -1,0 +1,108 @@
+Goal:
+Create a responsive and attractive modern web application in React.js for a non-banking financial company (NBFC) named LoanVeda. The platform should be inspired by financial marketplaces like Paisabazaar and LoanJagat, offering loan-related services with a user-friendly and futuristic UI/UX tailored for 2027.
+
+🎯 Features to Include
+✅ Frontend - Public Website (React.js)
+Responsive Web Design (Mobile-First, Desktop Adaptive)
+
+Home Page with:
+
+Company Logo (Design a unique logo for LoanVeda)
+
+Hero Banner with Call-to-Action (CTA)
+
+Loan categories (Personal Loan, Business Loan, Home Loan, etc.)
+
+Testimonials, FAQs, and Trust Signals (badges, ratings, etc.)
+
+Smooth scroll-based animations using Framer Motion or AOS (Animate On Scroll)
+
+Query Form Page:
+
+Fields: Name, Email, Mobile, Loan Type, Amount Needed, City, Comments
+
+Validate all inputs
+
+On submit, send data to backend (store in DB)
+
+About Us & Contact Us pages
+
+Modern UI Kit (use components from shadcn/ui, Material UI, or TailwindCSS)
+
+Use 2027-style design language:
+
+Glassmorphism, Neumorphism, or AI-enhanced interactions
+
+Light/Dark mode toggle
+
+Micro-interactions for buttons, form inputs, and icons
+
+✅ Admin Portal (React.js + Admin Dashboard)
+Login/Signup system for admin (basic auth for now)
+
+Admin dashboard:
+
+View all user queries with filter/search by date, loan type, status
+
+Query detail view
+
+Mark as responded, or delete
+
+Export data to CSV
+
+Use admin template or build with React Admin, Shadcn, or Tailwind UI dashboard template
+
+🔗 Backend (Basic Setup Suggestion)
+Use Node.js + Express or Firebase Functions
+
+Store data in MongoDB or Firebase Firestore
+
+Setup API endpoints:
+
+POST /api/query → store user queries
+
+GET /api/queries → list all queries (for admin)
+
+PUT /api/query/:id → update query status
+
+🛠 Tech Stack
+Frontend: React.js (with Vite or CRA), TailwindCSS, Shadcn, Framer Motion / AOS
+
+Backend: Node.js + Express OR Firebase Functions
+
+Database: MongoDB (with Mongoose) OR Firebase Firestore
+
+Libraries:
+
+framer-motion for animation
+
+aos for scroll animations
+
+react-hook-form or formik for form validation
+
+react-router-dom for routing
+
+lucide-react or heroicons for icons
+
+🧑‍🎨 Design Inspiration
+Inspired by fintech leaders (PaisaBazaar, LoanJagat) but with a futuristic spin
+
+Clean dashboard with modern charts, tables (use Recharts or Chart.js)
+
+Animations that feel seamless and not heavy
+
+Accessibility (ARIA roles, semantic HTML)
+
+SEO-optimized structure
+
+✅ Deliverables
+Responsive Web App for users (Loan seekers)
+
+Admin Dashboard for managing queries
+
+Logo design for LoanVeda (SVG or PNG)
+
+Clean, documented codebase (React, Tailwind, Node backend if used)
+
+Optional: Deploy preview on Vercel or Netlify
+
