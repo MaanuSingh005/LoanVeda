@@ -35,13 +35,13 @@ import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig(async () => {
-  // Detect Vercel (they set process.env.VERCEL automatically)
   const isVercel = !!process.env.VERCEL;
 
   return {
-    base: isVercel ? "/" : "/LoanVeda/", // ✅ Auto switch
+    root: path.resolve(import.meta.dirname, "client"), // 👈 where index.html lives
+    base: isVercel ? "/" : "/LoanVeda/", // 👈 "/" for Vercel, repo name for GitHub Pages
     build: {
-      outDir: path.resolve(import.meta.dirname, "dist"),
+      outDir: path.resolve(import.meta.dirname, "dist"), // output to project root dist
       emptyOutDir: true,
     },
     plugins: [
