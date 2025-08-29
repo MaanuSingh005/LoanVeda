@@ -42,7 +42,7 @@
 // export default App;
 
 
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Route, Router as WouterRouter } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -58,15 +58,15 @@ import AdminDashboard from "@/pages/admin-dashboard";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/apply" component={LoanForm} />
-      <Route path="/about" component={About} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/admin" component={AdminLogin} />
-      <Route path="/admin/dashboard" component={AdminDashboard} />
-      <Route component={NotFound} />
-    </Switch>
+    <>
+      <Route path="/">{() => <Home />}</Route>
+      <Route path="/apply">{() => <LoanForm />}</Route>
+      <Route path="/about">{() => <About />}</Route>
+      <Route path="/contact">{() => <Contact />}</Route>
+      <Route path="/admin">{() => <AdminLogin />}</Route>
+      <Route path="/admin/dashboard">{() => <AdminDashboard />}</Route>
+      <Route>{() => <NotFound />}</Route>
+    </>
   );
 }
 
@@ -76,8 +76,8 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <Toaster />
-          {/* 👇 Add Wouter's base path wrapper */}
-          <WouterRouter base="/LoanVeda">
+          {/* Use Vite's BASE_URL so dev ("/") and production ("/LoanVeda/") both work */}
+          <WouterRouter base={import.meta.env.BASE_URL || "/"}>
             <Router />
           </WouterRouter>
         </TooltipProvider>
