@@ -78,9 +78,21 @@ function App() {
           <Toaster />
           {/* Use Vite's BASE_URL in production, but force '/' during local development so routes match localhost. */}
           {/** import.meta.env.DEV is true when running vite in dev mode */}
-          <WouterRouter base={import.meta.env.DEV ? "/" : import.meta.env.BASE_URL || "/"}>
-            <Router />
-          </WouterRouter>
+          {/*
+            Wouter's `base` should not end with a trailing slash (except for root '/').
+            Vite sets import.meta.env.BASE_URL to '/LoanVeda/' for GH Pages, which can
+            make route matching fail and cause the NotFound page to render. Normalize
+            the base so '/LoanVeda/' becomes '/LoanVeda'.
+          */}
+          {(() => {
+            const rawBase = import.meta.env.DEV ? "/" : import.meta.env.BASE_URL || "/";
+            const normalized = rawBase === "/" ? "/" : rawBase.replace(/\/$/, "");
+            return (
+              <WouterRouter base={normalized}>
+                <Router />
+              </WouterRouter>
+            );
+          })()}
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
