@@ -76,8 +76,9 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <Toaster />
-          {/* Use Vite's BASE_URL so dev ("/") and production ("/LoanVeda/") both work */}
-          <WouterRouter base={import.meta.env.BASE_URL || "/"}>
+          {/* Use Vite's BASE_URL in production, but force '/' during local development so routes match localhost. */}
+          {/** import.meta.env.DEV is true when running vite in dev mode */}
+          <WouterRouter base={import.meta.env.DEV ? "/" : import.meta.env.BASE_URL || "/"}>
             <Router />
           </WouterRouter>
         </TooltipProvider>
