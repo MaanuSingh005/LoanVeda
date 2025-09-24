@@ -10,6 +10,10 @@ const loginSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Simple health check
+  app.get('/api/health', (_req, res) => {
+    res.json({ status: 'ok', env: process.env.NODE_ENV || 'development' });
+  });
   // Admin login
   app.post("/api/admin/login", async (req, res) => {
     try {
