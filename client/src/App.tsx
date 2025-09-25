@@ -76,7 +76,6 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <Toaster />
-          {/* Use Vite's BASE_URL in production, but force '/' during local development so routes match localhost. */}
           {/** import.meta.env.DEV is true when running vite in dev mode */}
           {/*
             Wouter's `base` should not end with a trailing slash (except for root '/').
